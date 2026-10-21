@@ -11,4 +11,28 @@
       <image:title>Mahesh Gupta Kesarla — Principal Architect</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://kmaheshgupta.github.io/workout/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kmaheshgupta.github.io/ai_news/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kmaheshgupta.github.io/ai_tools/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kmaheshgupta.github.io/ai_practices/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>

@@ -203,7 +203,61 @@
   .nav-links a::after { content: ""; position: absolute; left: 0; bottom: -6px; width: 0; height: 1.5px; background: var(--accent); transition: width 0.3s var(--ease); }
   .nav-links a:hover { color: var(--ink); }
   .nav-links a:hover::after { width: 100%; }
-  @media (max-width: 860px) { .nav-links a:not(.btn) { display: none; } }
+
+  /* "My AI World" dropdown */
+  .nav-drop { position: relative; }
+  .nav-drop-btn {
+    font: inherit; font-size: 14.5px; font-weight: 500; color: var(--ink-soft);
+    background: none; border: 0; padding: 0; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px; transition: color 0.25s;
+  }
+  .nav-drop-btn::after { content: ""; width: 6px; height: 6px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: translateY(-2px) rotate(45deg); transition: transform 0.25s var(--ease); }
+  .nav-drop:hover .nav-drop-btn, .nav-drop.open .nav-drop-btn { color: var(--ink); }
+  .nav-drop.open .nav-drop-btn::after { transform: translateY(1px) rotate(-135deg); }
+  .nav-drop-menu {
+    position: absolute; top: calc(100% + 14px); left: 50%; transform: translate(-50%, 6px);
+    min-width: 230px; padding: 8px; border-radius: 12px;
+    background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 2px;
+    opacity: 0; visibility: hidden; transition: opacity 0.2s, transform 0.25s var(--ease), visibility 0.2s;
+  }
+  .nav-drop-menu::before { content: ""; position: absolute; left: 0; right: 0; top: -16px; height: 16px; }
+  .nav-drop:hover .nav-drop-menu, .nav-drop:focus-within .nav-drop-menu, .nav-drop.open .nav-drop-menu {
+    opacity: 1; visibility: visible; transform: translate(-50%, 0);
+  }
+  .nav-links .nav-drop-menu a { display: block; padding: 10px 12px; border-radius: 8px; color: var(--ink); }
+  .nav-links .nav-drop-menu a::after { display: none; }
+  .nav-links .nav-drop-menu a:hover { background: var(--accent-tint); }
+  .nav-drop-menu a small { display: block; font-size: 12.5px; font-weight: 400; color: var(--ink-soft); }
+
+  /* Mobile menu */
+  .nav-toggle {
+    display: none; width: 40px; height: 40px; border-radius: 10px; cursor: pointer;
+    background: none; border: 1px solid var(--line); color: var(--ink);
+    align-items: center; justify-content: center;
+  }
+  .nav-toggle svg { width: 20px; height: 20px; }
+  @media (max-width: 860px) {
+    .nav-toggle { display: inline-flex; }
+    .nav-links {
+      position: absolute; top: 68px; left: 0; right: 0;
+      flex-direction: column; align-items: stretch; gap: 0;
+      padding: 8px 28px 20px; background: var(--bg); border-bottom: 1px solid var(--line);
+      display: none;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links > a, .nav-drop-btn { padding: 13px 0; font-size: 16px; border-bottom: 1px solid var(--line); }
+    .nav-links > a::after { display: none; }
+    .nav-drop-btn { width: 100%; justify-content: space-between; }
+    .nav-drop-menu {
+      position: static; transform: none; opacity: 1; visibility: visible;
+      background: none; border: 0; box-shadow: none; padding: 4px 0 8px 12px; display: none;
+    }
+    .nav-drop:hover .nav-drop-menu, .nav-drop:focus-within .nav-drop-menu { transform: none; }
+    .nav-drop.open .nav-drop-menu { display: flex; transform: none; }
+    .nav-links .theme-switch { display: flex; padding: 14px 0; }
+    .nav-links .btn { margin-top: 6px; justify-content: center; }
+  }
 
   .btn {
     display: inline-flex; align-items: center; gap: 9px;
@@ -443,13 +497,21 @@
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
     <a href="#top" class="brand"><span class="dot"></span>Mahesh&nbsp;Gupta&nbsp;Kesarla</a>
-    <nav class="nav-links">
-      <a href="#impact">Impact</a>
-      <a href="#focus">Focus</a>
-      <a href="#programs">Programs</a>
-      <a href="#leadership">Leadership</a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav class="nav-links" id="navLinks">
+      <a href="#impact">About</a>
       <a href="#experience">Experience</a>
-      <a href="#thought-leadership">Insights</a>
+      <a href="https://kmaheshgupta.github.io/workout/">Workout</a>
+      <div class="nav-drop" id="aiDrop">
+        <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true">My AI World</button>
+        <div class="nav-drop-menu">
+          <a href="https://kmaheshgupta.github.io/ai_news/">News<small>What's moving in AI</small></a>
+          <a href="https://kmaheshgupta.github.io/ai_tools/">Tools<small>Tools I use and recommend</small></a>
+          <a href="https://kmaheshgupta.github.io/ai_practices/">Best Practices<small>Patterns for building with AI</small></a>
+        </div>
+      </div>
       <div class="theme-switch" role="group" aria-label="Color theme">
         <button class="swatch forest" data-set="forest" aria-pressed="true" title="Light" aria-label="Light theme"></button>
         <button class="swatch dark" data-set="dark" aria-pressed="false" title="Dark" aria-label="Dark theme"></button>
@@ -845,6 +907,28 @@
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  // ---------- Mobile menu + "My AI World" dropdown ----------
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  const aiDrop = document.getElementById('aiDrop');
+  const aiDropBtn = aiDrop.querySelector('.nav-drop-btn');
+  const setMenu = (open) => {
+    navLinks.classList.toggle('open', open);
+    navToggle.setAttribute('aria-expanded', String(open));
+  };
+  const setDrop = (open) => {
+    aiDrop.classList.toggle('open', open);
+    aiDropBtn.setAttribute('aria-expanded', String(open));
+  };
+  navToggle.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
+  aiDropBtn.addEventListener('click', (e) => { e.stopPropagation(); setDrop(!aiDrop.classList.contains('open')); });
+  navLinks.querySelectorAll('a[href^="#"]').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('click', (e) => {
+    if (!aiDrop.contains(e.target)) setDrop(false);
+    if (!nav.contains(e.target)) setMenu(false);
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { setDrop(false); setMenu(false); } });
 
   // ---------- Reveal on scroll ----------
   const io = new IntersectionObserver((entries) => {
